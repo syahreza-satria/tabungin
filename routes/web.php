@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BillController;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\SavingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,14 +17,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::middleware('guest')->group(function(){
+    Route::get('register', [AuthController::class, 'showRegisterForm'])->name('auth.registerForm');
+    Route::post('register', [AuthController::class, 'register'])->name('auth.register');
+
+    Route::get('login', [AuthController::class, 'showLoginForm'])->name('auth.loginForm');
+    Route::post('login', [AuthController::class, 'login'])->name('auth.login');
 });
 
-Route::get('/login', function () {
-    return view('auth.login');
-});
+Route::middleware('auth')->group(function(){
+    Route::get('/', [Controller::class, 'index'])->name('dashboard.index');
 
-Route::get('/register', function () {
-    return view('auth.register');
+    Route::resource('bills', BillController::class);
+    Route::resource('savings', SavingController::class);
+
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });

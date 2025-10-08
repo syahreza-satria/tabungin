@@ -161,7 +161,7 @@
 
                     {{-- Link Masuk --}}
                     <p class="mt-8 text-center text-sm text-gray-600">Sudah punya akun?
-                        <a href="#"
+                        <a href="{{ route('auth.loginForm') }}"
                             class="font-medium text-indigo-600 transition duration-300 hover:text-indigo-800 hover:underline">Masuk
                             di sini</a>
                     </p>

@@ -117,7 +117,7 @@
 
                     {{-- Link Daftar --}}
                     <p class="mt-8 text-center text-sm text-gray-600">Belum memiliki akun?
-                        <a href="/register"
+                        <a href="{{ route('auth.registerForm') }}"
                             class="font-medium text-indigo-600 transition duration-300 hover:text-indigo-800 hover:underline">Daftar
                             Sekarang</a>
                     </p>
