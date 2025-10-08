@@ -1,11 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    {{-- Container utama dengan jarak antar elemen --}}
     <div class="space-y-8">
 
         <section class="overflow-hidden rounded-xl bg-white shadow-md">
-            {{-- Header Kartu --}}
             <div class="flex items-center justify-between border-b border-gray-200 p-6">
                 <div>
                     <h2 class="text-lg font-semibold text-gray-800">Daftar Hutang</h2>
@@ -20,9 +18,7 @@
                 </a>
             </div>
 
-            {{-- Daftar Hutang --}}
             <ul class="divide-y divide-gray-200">
-                {{-- Item 1 --}}
                 <li
                     class="group flex items-center justify-between px-6 py-4 transition-all duration-300 hover:bg-indigo-50">
                     <div class="flex flex-col">
@@ -38,7 +34,6 @@
                     </div>
                     <div class="flex items-center gap-4">
                         <span class="text-base font-semibold text-gray-800">Rp 22.000</span>
-                        {{-- Aksi --}}
                         <div class="flex items-center gap-3">
                             <a href="#" class="text-gray-400 transition duration-300 hover:text-amber-500">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -57,7 +52,6 @@
                         </div>
                     </div>
                 </li>
-                {{-- Item 2 (Contoh) --}}
                 <li
                     class="group flex items-center justify-between px-6 py-4 transition-all duration-300 hover:bg-indigo-50">
                     <div class="flex flex-col">
@@ -73,7 +67,6 @@
                     </div>
                     <div class="flex items-center gap-4">
                         <span class="text-base font-semibold text-gray-800">Rp 33.000</span>
-                        {{-- Aksi --}}
                         <div class="flex items-center gap-3">
                             <a href="#" class="text-gray-400 transition duration-300 hover:text-amber-500">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -96,7 +89,6 @@
         </section>
 
         <section class="overflow-hidden rounded-xl bg-white shadow-md">
-            {{-- Header Kartu --}}
             <div class="flex items-center justify-between border-b border-gray-200 p-6">
                 <div>
                     <h2 class="text-lg font-semibold text-gray-800">Tabungan Kamu</h2>
@@ -112,9 +104,7 @@
                 </a>
             </div>
 
-            {{-- Daftar Tabungan --}}
             <div class="space-y-6 p-6">
-                {{-- Target Tabungan 1: Laptop (On-Progress) --}}
                 <div>
                     <div class="mb-2 flex justify-between">
                         <span class="text-base font-medium text-gray-700">Membeli Laptop Baru</span>
@@ -126,7 +116,6 @@
                     <p class="mt-2 text-right text-sm text-gray-500">Rp 7.500.000 / Rp 10.000.000</p>
                 </div>
 
-                {{-- Target Tabungan 2: Liburan (Selesai) --}}
                 <div>
                     <div class="mb-2 flex justify-between">
                         <span class="text-base font-medium text-gray-700">Liburan ke Bali</span>
