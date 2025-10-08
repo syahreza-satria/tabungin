@@ -5,17 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Bill extends Model
+class Transaction extends Model
 {
     use HasFactory;
 
-        protected $fillable = [
+    protected $fillable = [
         'user_id',
-        'name',
-        'description',
         'amount',
-        'due_date',
-        'status'
+        'type',
+        'description',
+        'transaction_date',
     ];
 
     public function user()
