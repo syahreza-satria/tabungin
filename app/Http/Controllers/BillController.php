@@ -63,11 +63,41 @@ class BillController extends Controller
                          ->with('success', 'Tagihan berhasil diperbarui!');
     }
 
+    public function markAsPaid(Bill $bill)
+    {
+        // 1. Otorisasi: Pastikan user yang login adalah pemilik tagihan
+        if ($bill->user_id !== auth()->id()) {
+            abort(403, 'AKSI TIDAK DIIZINKAN');
+        }
+
+        // 2. Ubah status dan simpan ke database
+        $bill->status = 'paid';
+        $bill->save();
+
+        // Alternatif: $bill->update(['status' => 'paid']);
+        // Catatan: Jika menggunakan update(), pastikan 'status' ada di properti $fillable model Bill.
+
+        // 3. Redirect kembali dengan pesan sukses
+        return redirect()->route('bills.index')
+                         ->with('success', 'Tagihan berhasil dilunaskan!');
+
+    }
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Bill $bill)
     {
-        //
+        // 1. Otorisasi: Pastikan user yang login adalah pemilik tagihan
+        if ($bill->user_id !== auth()->id()) {
+            abort(403, 'AKSI TIDAK DIIZINKAN');
+        }
+
+        // 2. Hapus data dari database
+        $bill->delete();
+
+        // 3. Redirect kembali ke halaman index dengan pesan sukses
+        return redirect()->route('bills.index')
+                         ->with('success', 'Tagihan berhasil dihapus.');
     }
 }

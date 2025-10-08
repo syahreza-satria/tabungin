@@ -33,6 +33,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/', [Controller::class, 'index'])->name('dashboard.index');
 
     Route::resource('bills', BillController::class);
+    Route::patch('/bills/{bill}/pay', [BillController::class, 'markAsPaid'])->name('bills.pay');
+
     Route::resource('savings', SavingController::class);
 
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
