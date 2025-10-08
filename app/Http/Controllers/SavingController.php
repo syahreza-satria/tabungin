@@ -12,7 +12,8 @@ class SavingController extends Controller
      */
     public function index()
     {
-        return view('pages.savings.index');
+        $savings = Saving::all();
+        return view('pages.savings.index', compact('savings'));
     }
 
     /**
