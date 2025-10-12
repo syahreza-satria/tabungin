@@ -78,7 +78,7 @@ class BillController extends Controller
         // Catatan: Jika menggunakan update(), pastikan 'status' ada di properti $fillable model Bill.
 
         // 3. Redirect kembali dengan pesan sukses
-        return redirect()->route('bills.index')
+        return redirect()->back()
                          ->with('success', 'Tagihan berhasil dilunaskan!');
 
     }

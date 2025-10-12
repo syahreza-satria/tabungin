@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Saving;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SavingController extends Controller
 {
@@ -17,35 +18,38 @@ class SavingController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'goal_name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:255',
+            'target_amount' => 'required|numeric|min:0',
+        ]);
+
+        $validatedData['user_id'] = Auth::id();
+
+        Saving::create($validatedData);
+
+        return redirect()->route('savings.index')->with('success', 'Target tabungan baru berhasil dibuat!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Saving $saving)
+        public function addFunds(Request $request, Saving $saving)
     {
-        //
-    }
+        // Otorisasi
+        if ($saving->user_id !== Auth::id()) {
+            abort(403);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Saving $saving)
-    {
-        //
+        $validatedData = $request->validate([
+            'amount_to_add' => 'required|numeric|min:1',
+        ]);
+
+        $saving->current_amount += $validatedData['amount_to_add'];
+        $saving->save();
+
+        return redirect()->route('savings.index')->with('success', 'Dana berhasil ditambahkan ke tabungan!');
     }
 
     /**
@@ -53,7 +57,20 @@ class SavingController extends Controller
      */
     public function update(Request $request, Saving $saving)
     {
-        //
+        // Otorisasi
+        if ($saving->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $validatedData = $request->validate([
+            'goal_name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:255',
+            'target_amount' => 'required|numeric|min:0',
+        ]);
+
+        $saving->update($validatedData);
+
+        return redirect()->route('savings.index')->with('success', 'Target tabungan berhasil diperbarui!');
     }
 
     /**
@@ -61,6 +78,13 @@ class SavingController extends Controller
      */
     public function destroy(Saving $saving)
     {
-        //
+        // Otorisasi
+        if ($saving->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $saving->delete();
+
+        return redirect()->route('savings.index')->with('success', 'Target tabungan berhasil dihapus.');
     }
 }

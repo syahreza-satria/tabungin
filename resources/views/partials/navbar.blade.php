@@ -8,11 +8,11 @@
                 </svg>
             </div>
             <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                <li><a href="{{ route('dashboard.index') }}" class="text-sm">Beranda</a></li>
-                <li><a href="#" class="text-sm">Transaksi</a></li>
-                <li><a href="{{ route('bills.index') }}" class="text-sm">Hutang</a></li>
-                <li><a href="{{ route('savings.index') }}" class="text-sm">Tabungan</a></li>
-                <li><a href="#" class="text-sm">Akun</a></li>
+                <li><a href="{{ route('dashboard.index') }}" class="w-full text-sm">Beranda</a></li>
+                <li><a href="#" class="w-full text-sm">Transaksi</a></li>
+                <li><a href="{{ route('bills.index') }}" class="w-full text-sm">Hutang</a></li>
+                <li><a href="{{ route('savings.index') }}" class="w-full text-sm">Tabungan</a></li>
+                <li><a href="#" class="w-full text-sm">Akun</a></li>
             </ul>
         </div>
         <a href="{{ route('dashboard.index') }}" class="btn btn-ghost gap-0 text-xl md:text-2xl">Tabung<span
