@@ -12,7 +12,7 @@
                 <li><a href="#" class="w-full text-sm">Transaksi</a></li>
                 <li><a href="{{ route('bills.index') }}" class="w-full text-sm">Hutang</a></li>
                 <li><a href="{{ route('savings.index') }}" class="w-full text-sm">Tabungan</a></li>
-                <li><a href="#" class="w-full text-sm">Akun</a></li>
+                <li><a href="{{ route('settings.index') }}" class="w-full text-sm">Akun</a></li>
             </ul>
         </div>
         <a href="{{ route('dashboard.index') }}" class="btn btn-ghost gap-0 text-xl md:text-2xl">Tabung<span
@@ -30,19 +30,24 @@
             <li><a href="{{ route('savings.index') }}"
                     class="text-neutral-500 transition duration-300 hover:text-indigo-500">Tabungan</a>
             </li>
-            <li><a href="#" class="text-neutral-500 transition duration-300 hover:text-indigo-500">Akun</a>
+            <li><a href="{{ route('settings.index') }}"
+                    class="text-neutral-500 transition duration-300 hover:text-indigo-500">Akun</a>
             </li>
         </ul>
     </div>
     <div class="navbar-end">
-        <button type="submit"
-            class="mr-4 flex cursor-pointer items-center gap-2 text-neutral-500 transition duration-300 hover:text-indigo-500">
-            Keluar
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="size-4">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
-            </svg>
-        </button>
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            @method('POST')
+            <button type="submit"
+                class="mr-4 flex cursor-pointer items-center gap-2 text-neutral-500 transition duration-300 hover:text-indigo-500">
+                Logout
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-4">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                </svg>
+            </button>
+        </form>
     </div>
 </div>

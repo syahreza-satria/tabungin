@@ -11,7 +11,7 @@
 
     <body class="min-h-screen bg-neutral-100">
         @include('partials.navbar')
-        <main class="mx-auto space-y-8 px-4 sm:px-2 md:max-w-4xl lg:max-w-6xl lg:px-0">
+        <main class="mx-auto space-y-8 px-4 sm:px-2 md:max-w-4xl lg:max-w-6xl xl:px-0">
             @yield('content')
         </main>
         </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\Controller;
@@ -37,6 +38,8 @@ Route::middleware('auth')->group(function(){
 
     Route::resource('savings', SavingController::class);
     Route::patch('/savings/{saving}/add-funds', [SavingController::class, 'addFunds'])->name('savings.addFunds');
+
+    Route::resource('settings', AccountController::class);
 
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });

@@ -13,6 +13,7 @@
     <body class="flex min-h-screen items-center justify-center bg-gray-50 p-4 font-sans antialiased lg:p-8">
         @yield('content')
 
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         @stack('scripts')
     </body>
 
