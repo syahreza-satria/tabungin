@@ -70,17 +70,11 @@ class BillController extends Controller
             abort(403, 'AKSI TIDAK DIIZINKAN');
         }
 
-        // 2. Ubah status dan simpan ke database
         $bill->status = 'paid';
         $bill->save();
 
-        // Alternatif: $bill->update(['status' => 'paid']);
-        // Catatan: Jika menggunakan update(), pastikan 'status' ada di properti $fillable model Bill.
-
-        // 3. Redirect kembali dengan pesan sukses
         return redirect()->back()
                          ->with('success', 'Tagihan berhasil dilunaskan!');
-
     }
 
     /**

@@ -35,15 +35,21 @@ class SavingController extends Controller
         return redirect()->route('savings.index')->with('success', 'Target tabungan baru berhasil dibuat!');
     }
 
-        public function addFunds(Request $request, Saving $saving)
+    public function addFunds(Request $request, Saving $saving)
     {
-        // Otorisasi
         if ($saving->user_id !== Auth::id()) {
             abort(403);
         }
 
+        $remaining = $saving->target_amount - $saving->current_amount;
+        if ($remaining <= 0) {
+            return redirect()->route('savings.index')->with('error', 'Target tabungan ini sudah tercapai!');
+        }
+
         $validatedData = $request->validate([
-            'amount_to_add' => 'required|numeric|min:1',
+            'amount_to_add' => 'required|numeric|min:1|max:' . $remaining,
+        ], [
+            'amount_to_add.max' => 'Jumlah yang ditambahkan tidak boleh melebihi sisa target (Rp ' . number_format($remaining, 0, ',', '.') . ').',
         ]);
 
         $saving->current_amount += $validatedData['amount_to_add'];

@@ -49,9 +49,13 @@
                     </div>
 
                     <div class="flex w-full flex-shrink-0 items-center justify-end gap-2 sm:w-auto">
-                        <button class="btn btn-sm btn-outline btn-primary add-funds-button"
-                            data-saving-id="{{ $saving->id }}" data-saving-name="{{ $saving->goal_name }}">Tambah Dana
-                        </button>
+                        @if ($saving->current_amount < $saving->target_amount)
+                            <button class="btn btn-sm btn-outline btn-primary add-funds-button"
+                                data-saving-id="{{ $saving->id }}" data-saving-name="{{ $saving->goal_name }}"
+                                data-current-amount="{{ $saving->current_amount }}"
+                                data-target-amount="{{ $saving->target_amount }}">Tambah Dana
+                            </button>
+                        @endif
                         <button class="btn btn-sm btn-ghost edit-saving-button hover:text-amber-500"
                             data-id="{{ $saving->id }}" data-name="{{ $saving->goal_name }}"
                             data-target="{{ $saving->target_amount }}" data-description="{{ $saving->description }}">
@@ -172,144 +176,196 @@
                     <input type="text" id="add_funds_formatted_amount" placeholder="Contoh: Rp 500.000"
                         class="input input-bordered w-full" required />
                     <input type="hidden" name="amount_to_add" id="add_funds_amount_to_add" />
+
+                    {{-- TAMBAHKAN ELEMEN INI UNTUK PESAN ERROR --}}
+                    <div id="add_funds_error" class="text-error mt-1 h-4 text-xs"></div>
                 </div>
                 <div class="modal-action">
-                    <button type="submit" class="btn btn-primary">Tambahkan</button>
+                    {{-- Tambahkan ID pada tombol submit --}}
+                    <button type="submit" id="addFundsSubmitButton" class="btn btn-primary">Tambahkan</button>
                 </div>
             </form>
         </div>
     </dialog>
 
     @push('scripts')
-        @push('scripts')
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
 
-                    function setupCurrencyInput(visibleInputId, hiddenInputId) {
-                        const visibleInput = document.getElementById(visibleInputId);
-                        const hiddenInput = document.getElementById(hiddenInputId);
+                function setupCurrencyInput(visibleInputId, hiddenInputId) {
+                    const visibleInput = document.getElementById(visibleInputId);
+                    const hiddenInput = document.getElementById(hiddenInputId);
 
-                        if (!visibleInput || !hiddenInput) return; // Hentikan jika elemen tidak ditemukan
+                    if (!visibleInput || !hiddenInput) return; // Hentikan jika elemen tidak ditemukan
 
-                        visibleInput.addEventListener('input', function(e) {
-                            let rawValue = e.target.value.replace(/[^\d]/g, '');
-                            hiddenInput.value = rawValue;
+                    visibleInput.addEventListener('input', function(e) {
+                        let rawValue = e.target.value.replace(/[^\d]/g, '');
+                        hiddenInput.value = rawValue;
 
-                            if (rawValue) {
-                                const formatter = new Intl.NumberFormat('id-ID', {
-                                    style: 'currency',
-                                    currency: 'IDR',
-                                    minimumFractionDigits: 0
-                                });
-                                e.target.value = formatter.format(rawValue);
-                            } else {
-                                e.target.value = '';
-                            }
-                        });
-                    }
-
-                    setupCurrencyInput('add_formatted_target_amount', 'add_target_amount');
-                    setupCurrencyInput('edit_formatted_target_amount', 'edit_target_amount');
-                    setupCurrencyInput('add_funds_formatted_amount', 'add_funds_amount_to_add');
-
-
-                    // ==========================================================
-                    // ## LOGIKA MODAL EDIT (DIPERBARUI) ##
-                    // ==========================================================
-                    const editSavingModal = document.getElementById('editSavingModal');
-                    const editSavingForm = document.getElementById('editSavingForm');
-                    const editButtons = document.querySelectorAll('.edit-saving-button');
-
-                    editButtons.forEach(button => {
-                        button.addEventListener('click', function() {
-                            const savingId = this.dataset.id;
-                            const savingName = this.dataset.name;
-                            const savingTarget = this.dataset.target;
-                            const savingDescription = this.dataset.description;
-
-                            const updateUrl = `{{ url('savings') }}/${savingId}`;
-                            editSavingForm.setAttribute('action', updateUrl);
-
-                            // Isi form edit
-                            document.getElementById('edit_goal_name').value = savingName;
-                            document.getElementById('edit_description').value = savingDescription;
-
-                            // PERBARUI CARA MENGISI INPUT JUMLAH
-                            const hiddenInput = document.getElementById('edit_target_amount');
-                            const visibleInput = document.getElementById('edit_formatted_target_amount');
-
-                            hiddenInput.value = savingTarget; // Isi nilai mentah
-                            // Tampilkan nilai yang sudah diformat
+                        if (rawValue) {
                             const formatter = new Intl.NumberFormat('id-ID', {
                                 style: 'currency',
                                 currency: 'IDR',
                                 minimumFractionDigits: 0
                             });
-                            visibleInput.value = formatter.format(savingTarget);
-
-                            editSavingModal.showModal();
-                        });
+                            e.target.value = formatter.format(rawValue);
+                        } else {
+                            e.target.value = '';
+                        }
                     });
+                }
+
+                setupCurrencyInput('add_formatted_target_amount', 'add_target_amount');
+                setupCurrencyInput('edit_formatted_target_amount', 'edit_target_amount');
+                setupCurrencyInput('add_funds_formatted_amount', 'add_funds_amount_to_add');
 
 
-                    // ==========================================================
-                    // ## LOGIKA MODAL TAMBAH DANA (TETAP SAMA) ##
-                    // ==========================================================
-                    const addFundsModal = document.getElementById('addFundsModal');
-                    if (addFundsModal) {
-                        const addFundsForm = document.getElementById('addFundsForm');
-                        const addFundsButtons = document.querySelectorAll('.add-funds-button');
+                // ==========================================================
+                // ## LOGIKA MODAL EDIT (DIPERBARUI) ##
+                // ==========================================================
+                const editSavingModal = document.getElementById('editSavingModal');
+                const editSavingForm = document.getElementById('editSavingForm');
+                const editButtons = document.querySelectorAll('.edit-saving-button');
 
-                        addFundsButtons.forEach(button => {
-                            button.addEventListener('click', function() {
-                                const savingId = this.dataset.savingId;
-                                const savingName = this.dataset.savingName;
-                                const addFundsUrl = `{{ url('savings') }}/${savingId}/add-funds`;
-                                addFundsForm.setAttribute('action', addFundsUrl);
-                                document.getElementById('add_funds_goal_name').textContent = savingName;
+                editButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const savingId = this.dataset.id;
+                        const savingName = this.dataset.name;
+                        const savingTarget = this.dataset.target;
+                        const savingDescription = this.dataset.description;
 
-                                document.getElementById('add_funds_formatted_amount').value = '';
-                                document.getElementById('add_funds_amount_to_add').value = '';
+                        const updateUrl = `{{ url('savings') }}/${savingId}`;
+                        editSavingForm.setAttribute('action', updateUrl);
 
-                                addFundsModal.showModal();
-                            });
+                        // Isi form edit
+                        document.getElementById('edit_goal_name').value = savingName;
+                        document.getElementById('edit_description').value = savingDescription;
+
+                        // PERBARUI CARA MENGISI INPUT JUMLAH
+                        const hiddenInput = document.getElementById('edit_target_amount');
+                        const visibleInput = document.getElementById('edit_formatted_target_amount');
+
+                        hiddenInput.value = savingTarget; // Isi nilai mentah
+                        // Tampilkan nilai yang sudah diformat
+                        const formatter = new Intl.NumberFormat('id-ID', {
+                            style: 'currency',
+                            currency: 'IDR',
+                            minimumFractionDigits: 0
                         });
-                    }
+                        visibleInput.value = formatter.format(savingTarget);
 
-                    const deleteButtons = document.querySelectorAll('.delete-saving-button');
-                    deleteButtons.forEach(button => {
-                        button.addEventListener('click', function(event) {
-                            event.preventDefault();
-                            const billId = this.dataset.billId;
-                            const billName = this.dataset.billName;
-                            const form = document.getElementById(`delete-form-${billId}`);
-                            Swal.fire({
-                                title: 'Apakah Anda yakin?',
-                                text: `Anda akan menghapus target "${billName}". Aksi ini tidak bisa dibatalkan.`,
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonColor: '#d33',
-                                cancelButtonColor: '#3085d6',
-                                confirmButtonText: 'Ya, hapus!',
-                                cancelButtonText: 'Batal'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    form.submit();
-                                }
-                            });
-                        });
+                        editSavingModal.showModal();
                     });
-
-                    @if (session('success'))
-                        Swal.fire({
-                            title: 'Berhasil!',
-                            text: '{{ session('success') }}',
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        });
-                    @endif
                 });
-            </script>
-        @endpush
+
+
+                // ==========================================================
+                // ## LOGIKA MODAL TAMBAH DANA (TETAP SAMA) ##
+                // ==========================================================
+                const addFundsModal = document.getElementById('addFundsModal');
+                if (addFundsModal) {
+                    const addFundsForm = document.getElementById('addFundsForm');
+                    const addFundsButtons = document.querySelectorAll('.add-funds-button');
+                    const hiddenInput = document.getElementById('add_funds_amount_to_add');
+                    const visibleInput = document.getElementById('add_funds_formatted_amount');
+                    const errorDiv = document.getElementById('add_funds_error');
+                    const submitButton = document.getElementById('addFundsSubmitButton');
+
+                    let maxAddable = 0;
+
+                    addFundsButtons.forEach(button => {
+                        button.addEventListener('click', function() {
+                            const savingId = this.dataset.savingId;
+                            const savingName = this.dataset.savingName;
+                            const currentAmount = parseFloat(this.dataset.currentAmount);
+                            const targetAmount = parseFloat(this.dataset.targetAmount);
+
+                            maxAddable = targetAmount - currentAmount;
+
+                            // ==========================================================
+                            // ## PENAMBAHAN LOGIKA PENGECEKAN ##
+                            // ==========================================================
+                            if (maxAddable <= 0) {
+                                Swal.fire({
+                                    title: 'Target Tercapai!',
+                                    text: `Tabungan "${savingName}" sudah mencapai atau melebihi target.`,
+                                    icon: 'success'
+                                });
+                                return; // Hentikan eksekusi, jangan buka modal
+                            }
+                            // ==========================================================
+
+                            const formatter = new Intl.NumberFormat('id-ID', {
+                                style: 'currency',
+                                currency: 'IDR',
+                                minimumFractionDigits: 0
+                            });
+                            const maxFormatted = formatter.format(maxAddable);
+
+                            const addFundsUrl = `{{ url('savings') }}/${savingId}/add-funds`;
+                            addFundsForm.setAttribute('action', addFundsUrl);
+                            document.getElementById('add_funds_goal_name').textContent = savingName;
+
+                            visibleInput.value = '';
+                            hiddenInput.value = '';
+                            errorDiv.textContent = `Maksimal: ${maxFormatted}`;
+                            submitButton.disabled = false;
+
+                            addFundsModal.showModal();
+                        });
+                    });
+
+                    // Listener untuk validasi real-time (kode ini sudah benar dan tidak perlu diubah)
+                    visibleInput.addEventListener('input', function() {
+                        const rawValue = parseFloat(hiddenInput.value) || 0;
+                        if (rawValue > maxAddable) {
+                            errorDiv.textContent = 'Jumlah melebihi target!';
+                            submitButton.disabled = true;
+                        } else {
+                            const formatter = new Intl.NumberFormat('id-ID', {
+                                style: 'currency',
+                                currency: 'IDR',
+                                minimumFractionDigits: 0
+                            });
+                            errorDiv.textContent = `Maksimal: ${formatter.format(maxAddable)}`;
+                            submitButton.disabled = false;
+                        }
+                    });
+                }
+
+                const deleteButtons = document.querySelectorAll('.delete-saving-button');
+                deleteButtons.forEach(button => {
+                    button.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        const billId = this.dataset.billId;
+                        const billName = this.dataset.billName;
+                        const form = document.getElementById(`delete-form-${billId}`);
+                        Swal.fire({
+                            title: 'Apakah Anda yakin?',
+                            text: `Anda akan menghapus target "${billName}". Aksi ini tidak bisa dibatalkan.`,
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#d33',
+                            cancelButtonColor: '#3085d6',
+                            confirmButtonText: 'Ya, hapus!',
+                            cancelButtonText: 'Batal'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });
+                    });
+                });
+
+                @if (session('success'))
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: '{{ session('success') }}',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                @endif
+            });
+        </script>
     @endpush
 @endsection

@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function(){
     Route::patch('/bills/{bill}/pay', [BillController::class, 'markAsPaid'])->name('bills.pay');
 
     Route::resource('savings', SavingController::class);
+    Route::patch('/savings/{saving}/add-funds', [SavingController::class, 'addFunds'])->name('savings.addFunds');
 
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
