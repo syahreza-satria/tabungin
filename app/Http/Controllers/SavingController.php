@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Saving;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,8 @@ class SavingController extends Controller
     public function index()
     {
         $savings = Saving::all();
-        return view('pages.savings.index', compact('savings'));
+        $categories = Category::all();
+        return view('pages.savings.index', compact('savings', 'categories'));
     }
 
     /**
@@ -24,6 +26,7 @@ class SavingController extends Controller
     {
         $validatedData = $request->validate([
             'goal_name' => 'required|string|max:255',
+            'category_id' => 'required|integer',
             'description' => 'nullable|string|max:255',
             'target_amount' => 'required|numeric|min:0',
         ]);

@@ -110,7 +110,18 @@
                 <div>
                     <label class="label"><span class="label-text">Nama Tujuan</span></label>
                     <input type="text" name="goal_name" placeholder="Contoh: Beli Laptop Baru"
-                        class="input input-bordered w-full" required />
+                        class="input input-bordered w-full rounded-xl" required />
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label for="category_id" class="text-sm text-neutral-500">Kategori</label>
+                    <select name="category_id" id="category_id"
+                        class="select w-full appearance-none rounded-xl border border-neutral-300 px-4 py-2 text-base"
+                        required>
+                        <option value="" disabled selected>-- Pilih Kategori --</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="flex flex-col gap-1">
                     <label for="description" class="text-sm text-neutral-500">Deskripsi (Opsional)</label>
@@ -119,7 +130,7 @@
                 </div>
                 <div>
                     <label class="label"><span class="label-text">Target Jumlah (Rp)</span></label>
-                    <input type="text" id="add_formatted_target_amount" class="input input-bordered w-full"
+                    <input type="text" id="add_formatted_target_amount" class="input input-bordered w-full rounded-xl"
                         placeholder="Rp 0" required />
                     <input type="hidden" name="target_amount" id="add_target_amount" />
                 </div>

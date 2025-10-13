@@ -43,6 +43,14 @@
                                 required>
                         </div>
 
+                        {{-- Input Nama Lengkap --}}
+                        <div>
+                            <label for="username" class="mb-2 block text-sm font-medium text-gray-700">Username</label>
+                            <input type="text" name="username" id="username" placeholder="NoobMaster69"
+                                class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-800 placeholder-gray-400 outline-none transition duration-300 ease-in-out focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                                required>
+                        </div>
+
                         {{-- Input Email --}}
                         <div>
                             <label for="email" class="mb-2 block text-sm font-medium text-gray-700">Email</label>
