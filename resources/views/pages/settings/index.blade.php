@@ -33,9 +33,7 @@
                     </div>
                 </section>
 
-                {{-- Kolom Kanan: Informasi Akun (Lebih terstruktur) --}}
                 <section class="w-full flex-grow space-y-4">
-                    {{-- Field Nama Lengkap --}}
                     <div class="form-control">
                         <label for="name" class="label">
                             <span class="label-text">Nama Lengkap</span>
@@ -44,7 +42,6 @@
                             value="{{ old('name', $user->name) }}">
                     </div>
 
-                    {{-- Field Username --}}
                     <div class="form-control">
                         <label for="username" class="label">
                             <span class="label-text">Username</span>
@@ -53,7 +50,6 @@
                             value="{{ old('username', $user->username) }}" placeholder="John Doe">
                     </div>
 
-                    {{-- Field Phone --}}
                     <div class="form-control">
                         <label for="phone" class="label">
                             <span class="label-text">Username</span>
@@ -62,7 +58,6 @@
                             value="{{ old('phone', $user->phone) }}" placeholder="62852555666">
                     </div>
 
-                    {{-- Field Jenis Kelamin --}}
                     <div class="form-control">
                         <label class="label">
                             <span class="label-text">Jenis Kelamin</span>
@@ -81,7 +76,6 @@
                         </div>
                     </div>
 
-                    {{-- Field Email --}}
                     <div class="form-control">
                         <label for="email" class="label">
                             <span class="label-text">Email</span>
@@ -92,11 +86,9 @@
                 </section>
             </div>
 
-            {{-- Aksi Form: Tombol Simpan dan Ubah Password --}}
             <div class="divider mt-8"></div>
 
             <div class="flex flex-col items-center justify-between gap-4 pt-4 sm:flex-row">
-                {{-- Tombol Hapus Akun (di sebelah kiri) --}}
                 <div>
                     <button type="button" id="delete-account-button" class="btn btn-outline btn-error"
                         data-user-name="{{ $user->name }}">
@@ -127,13 +119,12 @@
                             html: `Anda akan menghapus akun <strong>${userName}</strong> secara permanen.<br>Aksi ini tidak bisa dibatalkan!`,
                             icon: 'warning',
                             showCancelButton: true,
-                            confirmButtonColor: '#e53935', // Warna merah untuk tombol konfirmasi
+                            confirmButtonColor: '#e53935',
                             cancelButtonColor: '#3085d6',
                             confirmButtonText: 'Ya, hapus akun saya!',
                             cancelButtonText: 'Batal'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                // Jika dikonfirmasi, submit form tersembunyi
                                 document.getElementById('delete-account-form').submit();
                             }
                         });

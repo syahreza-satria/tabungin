@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,9 +14,10 @@ class BillController extends Controller
      */
     public function index()
     {
+        $categories = Category::all();
         $unpaid_bills = Bill::where('user_id', auth()->id())->where('status', 'unpaid')->get();
         $paid_bills = Bill::where('user_id', auth()->id())->where('status', 'paid')->get();
-        return view('pages.bills.index', compact('unpaid_bills', 'paid_bills'));
+        return view('pages.bills.index', compact('unpaid_bills', 'paid_bills', 'categories'));
     }
 
     /**
@@ -26,6 +28,7 @@ class BillController extends Controller
         // 1. Validasi data yang masuk dari form
         $validatedData = $request->validate([
             'name'        => 'required|string|max:255',
+            'category_id' => 'required|integer',
             'description' => 'nullable|string',
             'amount'      => 'required|numeric|min:0',
             'due_date'    => 'nullable|date',

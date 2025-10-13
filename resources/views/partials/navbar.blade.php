@@ -9,7 +9,7 @@
             </div>
             <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
                 <li><a href="{{ route('dashboard.index') }}" class="w-full text-sm">Beranda</a></li>
-                <li><a href="#" class="w-full text-sm">Transaksi</a></li>
+                {{-- <li><a href="{{ route('transactions.index') }}" class="w-full text-sm">Transaksi</a></li> --}}
                 <li><a href="{{ route('bills.index') }}" class="w-full text-sm">Hutang</a></li>
                 <li><a href="{{ route('savings.index') }}" class="w-full text-sm">Tabungan</a></li>
                 <li><a href="{{ route('settings.index') }}" class="w-full text-sm">Akun</a></li>
@@ -23,7 +23,8 @@
             <li><a href="{{ route('dashboard.index') }}"
                     class="text-neutral-500 transition duration-300 hover:text-indigo-500">Beranda</a>
             </li>
-            <li><a href="#" class="text-neutral-500 transition duration-300 hover:text-indigo-500">Transaksi</a>
+            {{-- <li><a href="{{ route('transactions.index') }}"
+                    class="text-neutral-500 transition duration-300 hover:text-indigo-500">Transaksi</a> --}}
             </li>
             <li><a href="{{ route('bills.index') }}"
                     class="text-neutral-500 transition duration-300 hover:text-indigo-500">Hutang</a></li>

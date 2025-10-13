@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onelete('cascade');
             $table->string('name');
             $table->text('description')->nullable();
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->decimal('amount', 15,2);
             $table->date('due_date')->nullable();
             $table->enum('status', ['unpaid', 'paid'])->default('unpaid');
