@@ -1,52 +1,59 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="space-y-8">
-        <section class="overflow-hidden rounded-xl bg-white shadow-md">
-            <div class="flex items-center justify-between border-b border-gray-200 p-6">
-                <div>
-                    <h2 class="text-lg font-semibold text-gray-800">Daftar Hutang</h2>
-                    <p class="text-sm font-medium text-neutral-600">Total: <strong class="text-indigo-500">Rp @if ($bills)
-                                {{ number_format($bills->sum('amount'), '0', '.', '.') }}
-                            @else
-                                0
-                            @endif
-                        </strong>
-                    </p>
+    <div class="space-y-6">
+        <!-- Daftar Hutang Section -->
+        <section class="overflow-hidden rounded-2xl border border-gray-100 bg-white">
+            <div class="border-b border-gray-100 px-8 py-6">
+                <div class="flex items-center justify-between">
+                    <div class="space-y-1">
+                        <h2 class="text-xl font-semibold tracking-tight text-gray-900">Daftar Hutang</h2>
+                        <p class="text-sm text-gray-500">
+                            Total:
+                            <span class="font-semibold text-indigo-600">
+                                Rp @if ($bills)
+                                    {{ number_format($bills->sum('amount'), '0', '.', '.') }}
+                                @else
+                                    0
+                                @endif
+                            </span>
+                        </p>
+                    </div>
+                    <a href="{{ route('bills.index') }}"
+                        class="group inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-indigo-600 transition-all hover:bg-indigo-50">
+                        Lihat Semua
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor" class="size-4 transition-transform group-hover:translate-x-0.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </a>
                 </div>
-                <a href="{{ route('bills.index') }}"
-                    class="flex items-center gap-2 text-sm font-medium text-indigo-600 hover:text-indigo-800">
-                    Lihat Semua
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                        stroke="currentColor" class="size-4">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                    </svg>
-                </a>
             </div>
-            <ul class="divide-y divide-gray-200">
+
+            <ul class="divide-y divide-gray-50">
                 @forelse ($bills as $bill)
-                    <li
-                        class="group flex items-center justify-between px-6 py-4 transition-all duration-300 hover:bg-indigo-50">
-                        <div class="flex flex-col">
-                            <h3 class="font-medium text-gray-900">{{ $bill->name }}</h3>
-                            <p class="mt-1 flex items-center gap-1.5 text-xs text-gray-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-3.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                </svg>
-                                {{ $bill->created_at->format('d M Y, H:i') }}
-                            </p>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <span class="text-base font-semibold text-gray-800">Rp
-                                {{ number_format($bill->amount, 0, ',', '.') }}</span>
-                            <div class="flex items-center gap-3">
+                    <li class="group px-8 py-5 transition-colors hover:bg-gray-50/50">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1 space-y-1.5">
+                                <h3 class="font-medium text-gray-900">{{ $bill->name }}</h3>
+                                <p class="flex items-center gap-1.5 text-xs text-gray-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-3.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                    {{ $bill->created_at->format('d M Y, H:i') }}
+                                </p>
+                            </div>
+                            <div class="flex items-center gap-6">
+                                <span class="text-lg font-semibold text-gray-900">
+                                    Rp {{ number_format($bill->amount, 0, ',', '.') }}
+                                </span>
                                 <form action="{{ route('bills.pay', $bill->id) }}" method="POST">
                                     @csrf
                                     @method('PATCH')
                                     <button type="submit" data-tip="Lunaskan"
-                                        class="tooltip cursor-pointer text-gray-400 transition duration-300 hover:text-emerald-500">
+                                        class="tooltip rounded-lg p-2 text-gray-400 transition-all hover:bg-emerald-50 hover:text-emerald-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -58,23 +65,21 @@
                         </div>
                     </li>
                 @empty
-                    <div class="my-8 text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 10h.01M15 10h.01M9 14h6" />
-                        </svg>
-
-                        <h3 class="mt-2 text-lg font-medium text-gray-900">
-                            Belum Ada Data
-                        </h3>
-
+                    <div class="py-16 text-center">
+                        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="mt-4 text-base font-medium text-gray-900">Belum Ada Data</h3>
                         <p class="mt-1 text-sm text-gray-500">
                             Sepertinya Anda belum membuat data apapun. Mulai sekarang!
                         </p>
-
                         <div class="mt-6">
-                            <a href="{{-- route('nama.route.create') --}}" class="btn btn-primary">
+                            <a href="{{-- route('nama.route.create') --}}"
+                                class="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-indigo-700">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
                                     fill="currentColor">
                                     <path fill-rule="evenodd"
@@ -88,22 +93,27 @@
                 @endforelse
             </ul>
         </section>
-        <section class="overflow-hidden rounded-xl bg-white shadow-md">
-            <div class="flex items-center justify-between border-b border-gray-200 p-6">
-                <div>
-                    <h2 class="text-lg font-semibold text-gray-800">Tabungan Kamu</h2>
-                    <p class="text-sm text-gray-500">Berikut adalah target tabungan yang masih aktif.</p>
+
+        <!-- Tabungan Section -->
+        <section class="overflow-hidden rounded-2xl border border-gray-100 bg-white">
+            <div class="border-b border-gray-100 px-8 py-6">
+                <div class="flex items-center justify-between">
+                    <div class="space-y-1">
+                        <h2 class="text-xl font-semibold tracking-tight text-gray-900">Tabungan Kamu</h2>
+                        <p class="text-sm text-gray-500">Berikut adalah target tabungan yang masih aktif.</p>
+                    </div>
+                    <a href="{{ route('savings.index') }}"
+                        class="group inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-indigo-600 transition-all hover:bg-indigo-50">
+                        Lihat Semua
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor" class="size-4 transition-transform group-hover:translate-x-0.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </a>
                 </div>
-                <a href="{{ route('savings.index') }}"
-                    class="flex items-center gap-2 text-sm font-medium text-indigo-600 hover:text-indigo-800">
-                    Lihat Semua
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                        stroke="currentColor" class="size-4">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                    </svg>
-                </a>
             </div>
-            <ul class="space-y-6 p-6">
+
+            <ul class="space-y-6 p-8">
                 @forelse ($savings as $saving)
                     @php
                         $percentage = 0;
@@ -111,42 +121,36 @@
                             $percentage = ($saving->current_amount / $saving->target_amount) * 100;
                         }
                     @endphp
-                    <li>
-                        <div class="flex justify-between font-medium">
-                            <span>{{ $saving->goal_name }}</span>
-                            <span class="text-indigo-500">{{ number_format($percentage, 0) }}%</span>
+                    <li class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="font-medium text-gray-900">{{ $saving->goal_name }}</span>
+                            <span class="text-sm font-semibold text-indigo-600">{{ number_format($percentage, 0) }}%</span>
                         </div>
-                        <p class="text-base-content/70 text-sm">
+                        <p class="text-sm text-gray-500">
                             Rp {{ number_format($saving->current_amount, 0, ',', '.') }} /
                             Rp {{ number_format($saving->target_amount, 0, ',', '.') }}
                         </p>
-
-                        {{-- Progress bar dengan warna "success" --}}
-                        <progress class="progress progress-primary w-full" value="{{ $percentage }}"
-                            max="100"></progress>
+                        <div class="relative h-2 w-full overflow-hidden rounded-full bg-gray-100">
+                            <div class="h-full rounded-full bg-gradient-to-r from-indigo-500 to-indigo-600 transition-all duration-500"
+                                style="width: {{ min($percentage, 100) }}%"></div>
+                        </div>
                     </li>
                 @empty
-                    <div class="mt-8 text-center">
-                        {{-- Ikon SVG --}}
-                        <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 10h.01M15 10h.01M9 14h6" />
-                        </svg>
-
-                        {{-- Judul Pesan --}}
-                        <h3 class="mt-2 text-lg font-medium text-gray-900">
-                            Belum Ada Data
-                        </h3>
-
-                        {{-- Deskripsi --}}
+                    <div class="py-12 text-center">
+                        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="mt-4 text-base font-medium text-gray-900">Belum Ada Data</h3>
                         <p class="mt-1 text-sm text-gray-500">
                             Sepertinya Anda belum membuat data apapun. Mulai sekarang!
                         </p>
-
-                        {{-- Tombol Aksi (Call to Action) --}}
                         <div class="mt-6">
-                            <a href="{{-- route('nama.route.create') --}}" class="btn btn-primary">
+                            <a href="{{-- route('nama.route.create') --}}"
+                                class="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-indigo-700">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
                                     fill="currentColor">
                                     <path fill-rule="evenodd"
