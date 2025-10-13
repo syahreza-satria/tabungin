@@ -48,7 +48,7 @@
 
                     <div class="form-control">
                         <label for="phone" class="label">
-                            <span class="label-text">Username</span>
+                            <span class="label-text">Nomor Handphone</span>
                         </label>
                         <input type="text" name="phone" id="phone" class="input input-bordered w-full"
                             value="{{ old('phone', $user->phone) }}" placeholder="62852555666">
