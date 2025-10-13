@@ -15,7 +15,7 @@ class AccountController extends Controller
     public function index()
     {
         $user = Auth::user();
-        return view('pages.settings.index', compact('user'));
+        return view('pages.accounts.index', compact('user'));
     }
 
     /**
@@ -49,7 +49,7 @@ class AccountController extends Controller
         $user->update($validatedData);
 
         // Redirect kembali ke halaman pengaturan dengan pesan sukses
-        return redirect()->route('settings.index')->with('success', 'Profil berhasil diperbarui!');
+        return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
     }
 
     public function destroy(Request $request, User $setting)
