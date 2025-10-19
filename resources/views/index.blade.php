@@ -2,6 +2,67 @@
 
 @section('content')
     <div class="space-y-6">
+        <div class="grid grid-cols-12 gap-4 md:gap-8">
+
+            <div class="col-span-12 md:col-span-6 bg-white rounded-2xl p-6 shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider">
+                            Hutang Belum Selesai
+                        </h3>
+                        <p class="text-4xl font-bold text-gray-900 mt-2">
+                            @if ($bills)
+                                {{ $bills->count() }}
+                            @else
+                                0
+                            @endif
+                        </p>
+                        <span class="text-xs text-gray-400">Total tagihan yang harus dibayar</span>
+                    </div>
+
+                    <div class="flex-shrink-0 bg-red-100 text-red-600 p-4 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
+                            <path d="M12 7.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" />
+                            <path fill-rule="evenodd"
+                                d="M1.5 4.875C1.5 3.839 2.34 3 3.375 3h17.25c1.035 0 1.875.84 1.875 1.875v9.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 14.625v-9.75ZM8.25 9.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM18.75 9a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V9.75a.75.75 0 0 0-.75-.75h-.008ZM4.5 9.75A.75.75 0 0 1 5.25 9h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H5.25a.75.75 0 0 1-.75-.75V9.75Z"
+                                clip-rule="evenodd" />
+                            <path
+                                d="M2.25 18a.75.75 0 0 0 0 1.5c5.4 0 10.63.722 15.6 2.075 1.19.324 2.4-.558 2.4-1.82V18.75a.75.75 0 0 0-.75-.75H2.25Z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-span-12 md:col-span-6 bg-white rounded-2xl p-6 shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider">
+                            Tabungan Aktif
+                        </h3>
+                        <p class="text-4xl font-bold text-gray-900 mt-2">
+                            @if ($savings)
+                                {{ $savings->count() }}
+                            @else
+                                0
+                            @endif
+                        </p>
+                        <span class="text-xs text-gray-400">Total celengan yang sedang diisi</span>
+                    </div>
+
+                    <div class="flex-shrink-0 bg-green-100 text-green-600 p-4 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
+                            <path
+                                d="M11.584 2.376a.75.75 0 0 1 .832 0l9 6a.75.75 0 1 1-.832 1.248L12 3.901 3.416 9.624a.75.75 0 0 1-.832-1.248l9-6Z" />
+                            <path fill-rule="evenodd"
+                                d="M20.25 10.332v9.918H21a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1 0-1.5h.75v-9.918a.75.75 0 0 1 .634-.74A49.109 49.109 0 0 1 12 9c2.59 0 5.134.202 7.616.592a.75.75 0 0 1 .634.74Zm-7.5 2.418a.75.75 0 0 0-1.5 0v6.75a.75.75 0 0 0 1.5 0v-6.75Zm3-.75a.75.75 0 0 1 .75.75v6.75a.75.75 0 0 1-1.5 0v-6.75a.75.75 0 0 1 .75-.75ZM9 12.75a.75.75 0 0 0-1.5 0v6.75a.75.75 0 0 0 1.5 0v-6.75Z"
+                                clip-rule="evenodd" />
+                            <path d="M12 7.875a1.125 1.125 0 1 0 0-2.25 1.125 1.125 0 0 0 0 2.25Z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+        </div>
         <!-- Daftar Hutang Section -->
         <section class="overflow-hidden rounded-2xl border border-gray-100 bg-white">
             <div class="border-b border-gray-100 px-8 py-6">
@@ -124,7 +185,8 @@
                     <li class="space-y-3">
                         <div class="flex items-center justify-between">
                             <span class="font-medium text-gray-900">{{ $saving->goal_name }}</span>
-                            <span class="text-sm font-semibold text-indigo-600">{{ number_format($percentage, 0) }}%</span>
+                            <span
+                                class="text-sm font-semibold text-indigo-600">{{ number_format($percentage, 0) }}%</span>
                         </div>
                         <p class="text-sm text-gray-500">
                             Rp {{ number_format($saving->current_amount, 0, ',', '.') }} /
