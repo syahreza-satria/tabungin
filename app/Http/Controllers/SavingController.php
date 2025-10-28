@@ -14,7 +14,9 @@ class SavingController extends Controller
      */
     public function index()
     {
-        $savings = Saving::all();
+        $savings = Saving::where('user_id', auth()->id())
+            ->whereColumn('current_amount', '<', 'target_amount')
+            ->orderBy('current_amount', 'desc')->get();
         $categories = Category::all();
         return view('pages.savings.index', compact('savings', 'categories'));
     }

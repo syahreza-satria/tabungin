@@ -3,8 +3,6 @@
         ['route' => 'dashboard.index', 'name' => 'Beranda', 'active' => 'dashboard.*'],
         ['route' => 'bills.index', 'name' => 'Hutang', 'active' => 'bills.*'],
         ['route' => 'savings.index', 'name' => 'Tabungan', 'active' => 'savings.*'],
-        ['route' => 'settings.index', 'name' => 'Pengaturan', 'active' => 'settings.*'],
-        ['route' => 'accounts.index', 'name' => 'Akun', 'active' => 'accounts.*'],
     ];
 @endphp
 
@@ -56,9 +54,19 @@
             </div>
             <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-40 p-2 shadow">
                 <li>
-                    <form action="{{ route('logout') }}" method="POST">
+                    <a href="{{ route('accounts.index') }}" class="w-full text-left text-sm">
+                        Pengaturan
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('accounts.index') }}" class="w-full text-left text-sm">
+                        Akun
+                    </a>
+                </li>
+                <li>
+                    <form action="{{ route('logout') }}" method="POST" class="block">
                         @csrf
-                        <button type="submit" class="text-error w-full text-left">
+                        <button type="submit" class="text-error w-full cursor-pointer text-left text-sm">
                             Logout
                         </button>
                     </form>

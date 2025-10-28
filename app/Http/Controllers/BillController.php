@@ -15,8 +15,8 @@ class BillController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $unpaid_bills = Bill::where('user_id', auth()->id())->where('status', 'unpaid')->get();
-        $paid_bills = Bill::where('user_id', auth()->id())->where('status', 'paid')->get();
+        $unpaid_bills = Bill::where('user_id', auth()->id())->where('status', 'unpaid')->orderBy('created_at', 'desc')->get();
+        $paid_bills = Bill::where('user_id', auth()->id())->where('status', 'paid')->orderBy('created_at', 'desc')->get();
         return view('pages.bills.index', compact('unpaid_bills', 'paid_bills', 'categories'));
     }
 

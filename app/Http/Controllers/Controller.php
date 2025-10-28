@@ -14,10 +14,10 @@ class Controller extends BaseController
 
     public function index()
     {
-        $bills = Bill::where('user_id', auth()->id())->where('status', 'unpaid')->get();
+        $bills = Bill::where('user_id', auth()->id())->where('status', 'unpaid')->orderBy('created_at', 'desc')->take(4)->get();
         $savings = Saving::where('user_id', auth()->id())
                         ->whereColumn('current_amount', '<', 'target_amount')
-                        ->get();
+                        ->orderBy('current_amount', 'desc')->take(4)->get();
 
         return view('index', compact('bills', 'savings'));
     }
