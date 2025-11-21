@@ -1,32 +1,10 @@
 @extends('layouts.authentication')
 
 @section('content')
-    @push('styles')
-        <style>
-            /* Optional: Custom scrollbar styling for a cleaner look */
-            body::-webkit-scrollbar {
-                width: 8px;
-            }
-
-            body::-webkit-scrollbar-track {
-                background: #f1f1f1;
-            }
-
-            body::-webkit-scrollbar-thumb {
-                background: #c7d2fe;
-                border-radius: 10px;
-            }
-
-            body::-webkit-scrollbar-thumb:hover {
-                background: #a5b4fc;
-            }
-        </style>
-    @endpush
-
     <div
         class="mx-auto flex w-full max-w-7xl flex-col overflow-hidden rounded-2xl bg-white shadow-lg lg:h-[calc(100vh-4rem)] lg:flex-row">
         {{-- Bagian Kiri (Form Login) --}}
-        <section class="flex flex-1 items-center justify-center p-6 lg:p-12">
+        <section class="flex flex-1 items-center justify-center p-6 border border-gray-300 rounded-l-2xl lg:p-12">
             <div class="mx-auto w-full max-w-md space-y-6">
                 <h1 class="text-3xl font-semibold text-gray-800">Welcome Back 👋</h1>
                 <p class="text-base text-gray-600">

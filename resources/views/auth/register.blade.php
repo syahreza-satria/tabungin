@@ -1,30 +1,7 @@
 @extends('layouts.authentication')
 
 @section('content')
-    @push('styles')
-        <style>
-            body::-webkit-scrollbar {
-                width: 8px;
-            }
-
-            body::-webkit-scrollbar-track {
-                background: #f1f1f1;
-            }
-
-            body::-webkit-scrollbar-thumb {
-                background: #c7d2fe;
-                border-radius: 10px;
-            }
-
-            body::-webkit-scrollbar-thumb:hover {
-                background: #a5b4fc;
-            }
-        </style>
-    @endpush
-
-    <div
-        class="mx-auto flex w-full max-w-7xl flex-col overflow-hidden rounded-2xl bg-white shadow-lg lg:h-[calc(100vh-4rem)] lg:flex-row">
-        {{-- Bagian Kiri (Form Register) --}}
+    <div class="mx-auto flex w-full max-w-7xl flex-col overflow-hidden rounded-2xl bg-white shadow-lg lg:flex-row">
         <section class="flex flex-1 items-center justify-center p-6 lg:p-12">
             <div class="mx-auto w-full max-w-md space-y-6">
                 <h1 class="text-3xl font-semibold text-gray-800">Buat Akun Baru ✨</h1>
@@ -35,7 +12,6 @@
                 <div class="flex w-full flex-col">
                     <form action="" method="POST" class="space-y-5">
                         @csrf
-                        {{-- Input Nama Lengkap --}}
                         <div>
                             <label for="name" class="mb-2 block text-sm font-medium text-gray-700">Nama Lengkap</label>
                             <input type="text" name="name" id="name" placeholder="John Doe"
@@ -43,7 +19,6 @@
                                 required>
                         </div>
 
-                        {{-- Input Nama Lengkap --}}
                         <div>
                             <label for="username" class="mb-2 block text-sm font-medium text-gray-700">Username</label>
                             <input type="text" name="username" id="username" placeholder="NoobMaster69"
@@ -51,7 +26,6 @@
                                 required>
                         </div>
 
-                        {{-- Input Email --}}
                         <div>
                             <label for="email" class="mb-2 block text-sm font-medium text-gray-700">Email</label>
                             <input type="email" name="email" id="email" placeholder="johndoe@gmail.com"
@@ -59,7 +33,6 @@
                                 required>
                         </div>
 
-                        {{-- Input Password dengan Strength Meter --}}
                         <div>
                             <label for="password" class="mb-2 block text-sm font-medium text-gray-700">Password</label>
                             <div class="relative">
@@ -69,7 +42,6 @@
                                 <button type="button"
                                     onclick="togglePassword('password', 'eye-icon-password', 'eye-slash-icon-password')"
                                     class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 focus:outline-none">
-                                    {{-- Ikon Mata (Visible) --}}
                                     <svg id="eye-icon-password" xmlns="http://www.w3.org/2000/svg"
                                         class="h-5 w-5 hover:text-indigo-600" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
@@ -78,7 +50,6 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                     </svg>
-                                    {{-- Ikon Mata (Hidden) --}}
                                     <svg id="eye-slash-icon-password" xmlns="http://www.w3.org/2000/svg"
                                         class="hidden h-5 w-5 hover:text-indigo-600" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
@@ -87,7 +58,6 @@
                                     </svg>
                                 </button>
                             </div>
-                            {{-- Indikator Kekuatan Password --}}
                             <div class="mt-2 flex items-center gap-x-2">
                                 <div id="strength-bar-1" class="h-1.5 w-1/4 rounded-full bg-gray-200"></div>
                                 <div id="strength-bar-2" class="h-1.5 w-1/4 rounded-full bg-gray-200"></div>
@@ -97,7 +67,7 @@
                             <p id="strength-text" class="mt-1 text-xs text-gray-500"></p>
                         </div>
 
-                        {{-- Input Konfirmasi Password dengan Validasi Real-time --}}
+
                         <div>
                             <label for="password_confirmation"
                                 class="mb-2 block text-sm font-medium text-gray-700">Konfirmasi Password</label>
@@ -177,7 +147,6 @@
             </div>
         </section>
 
-        {{-- Bagian Kanan (Gambar Ilustrasi) --}}
         <section class="relative hidden flex-1 lg:flex">
             <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1470&auto=format&fit=crop"
                 alt="Illustration of a team working" class="h-full w-full object-cover">
